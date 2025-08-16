@@ -1,0 +1,2 @@
+GLOBAL: scripts/simple-exit-detector/global.lua
+PLAYER: scripts/simple-exit-detector/player.lua
