@@ -34,8 +34,11 @@ function this.getExit(cell, position, distance, distanceInCells, path, checkedCe
         return path, distance, distanceInCells
     end
 
+    local doors = cell:getAll(types.Door)
+    if #doors <= 1 then return end
+
     local results = {}
-    for _, door in pairs(cell:getAll(types.Door)) do
+    for _, door in pairs(doors) do
         if not types.Door.isTeleport(door) or not door.enabled then goto continue end
 
         local destCell = types.Door.destCell(door)
@@ -86,7 +89,7 @@ function this.getExits(cell)
         local destPos = types.Door.destPosition(door)
         if not destCell or not destPos then goto continue end
 
-        local resPath, dist, distInCell = this.getExit(destCell, destPos)
+        local resPath, dist, distInCell = this.getExit(destCell, destPos, 0, 0, {}, {[cell.id] = true}, 10)
 
         if resPath then
             table.insert(results, {door = door, path = resPath, distance = dist, distanceInCells = distInCell})
